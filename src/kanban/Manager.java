@@ -1,23 +1,26 @@
+package kanban;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Manager {
+    String[] statusList = {"NEW", "IN_PROGRESS", "DONE"};
     int id = 100000;
     HashMap<Integer, Object> taskStorage = new HashMap<>();
 
-    void newTask(String name, String description) {
+    public void newTask(String name, String description) {
         Task task = new Task(name, description);
         taskStorage.put(id, task);
         id++;
     }
 
-    void newEpic(String name, String description) {
+    public void newEpic(String name, String description) {
         Epic task = new Epic(name, description);
         taskStorage.put(id, task);
         id++;
     }
 
-    void newSubtask(String name, String description, int epicId) {
+    public void newSubtask(String name, String description, int epicId) {
         if (taskStorage.containsKey(epicId)) {
             Subtask subTask = new Subtask(name, description, epicId);
             Epic addId = (Epic) taskStorage.get(epicId);
@@ -29,7 +32,7 @@ public class Manager {
         }
     }
 
-    void printTasks(String type) {
+    public void printTasks(String type) {
         switch (type) {
             case "Задача":
                 for (Integer key : taskStorage.keySet()) {
@@ -60,7 +63,7 @@ public class Manager {
         }
     }
 
-    void clearTasks(String type) {
+    public void clearTasks(String type) {
         ArrayList<Integer> removeId = new ArrayList<>();
         switch (type) {
             case "Задача":
@@ -104,75 +107,62 @@ public class Manager {
         }
     }
 
-    void findTask(int id) {
+    public void findTask(int id) {
         System.out.println("id = " + id + "; Задача = " + taskStorage.get(id));
     }
 
-    void createTask(String type, ExampleObject object) {
-        switch (type) {
-            case "Задача":
-                newTask(object.name, object.description);
-                break;
-            case "Эпик":
-                newEpic(object.name, object.description);
-                break;
-            case "Подзадача":
-                newSubtask(object.name, object.description, object.epicId);
-                break;
-            default:
-                System.out.println("Ошибка при создании задачи.");
-        }
-
-    }
-
-    void updateTask(ExampleObject object) {
-        if (taskStorage.containsKey(object.id)) {
-            if (taskStorage.get(object.id).getClass().equals(Task.class)) {
-                Task task = new Task(object.name, object.description, object.status);
-                taskStorage.put(object.id, task);
-            } else if (taskStorage.get(object.id).getClass().equals(Epic.class)) {
-                Epic epic = new Epic(object.name, object.description, object.status);
-                taskStorage.put(object.id, epic);
-            } else if (taskStorage.get(object.id).getClass().equals(Subtask.class)) {
-                Subtask subtask = new Subtask(object.name, object.description, object.status, object.epicId);
-                taskStorage.put(object.id, subtask);
-                logicStatus(object.epicId);
-            } else {
-                    System.out.println("Ошибка при изменении задачи.");
-            }
+    public void updateTask(int id, Task task) {
+        if (taskStorage.containsKey(id)) {
+            taskStorage.put(id, task);
+        } else {
+            System.out.println("Нет такой задачи");
         }
     }
 
-    void logicStatus(int epicId) {
+    public void updateEpic(int id, Epic epic) {
+        if (taskStorage.containsKey(id)) {
+            taskStorage.put(id, epic);
+        } else {
+            System.out.println("Нет такого эпика");
+        }
+    }
+
+
+    public void updateSubtask(int id, Subtask subtask) {
+        if (taskStorage.containsKey(id)) {
+            taskStorage.put(id, subtask);
+            logicStatus(subtask.epicId);
+        } else {
+            System.out.println("Нет такой подзадачи");
+        }
+    }
+
+
+    protected void logicStatus(int epicId) {
         int doneStatus = 0;
         int newStatus = 0;
         Epic epic = (Epic) taskStorage.get(epicId);
         for (int idST : epic.subtaskIdList) {
             Subtask subtask = (Subtask) taskStorage.get(idST);
-            switch (subtask.status) {
-                case "NEW":
-                    newStatus++;
-                    break;
-                case "DONE":
-                    doneStatus++;
-                    break;
-                default:
-                    break;
+            if (statusList[0].equals(subtask.status)) {
+                newStatus++;
+            } else if (statusList[2].equals(subtask.status)) {
+                doneStatus++;
             }
         }
         if (newStatus == epic.subtaskIdList.size()) {
-            epic.status = "NEW";
+            epic.status = statusList[0];
         } else if (doneStatus == epic.subtaskIdList.size()) {
-            epic.status = "DONE";
+            epic.status = statusList[2];
         } else {
-            epic.status = "IN_PROGRESS";
+            epic.status = statusList[1];
         }
     }
 
-    void deleteTask(int id) {
+    public void deleteTask(int id) {
         if (taskStorage.containsKey(id)) {
-            if (taskStorage.get(id).getClass().equals(Task.class)) {
-                taskStorage.remove(id);
+            if (taskStorage.get(id).getClass().equals(Task.class)) { //при использовании instanceof не работает с наследованием
+                taskStorage.remove(id);                              //всегда выполняется первая проверка
             } else if (taskStorage.get(id).getClass().equals(Epic.class)) {
                 Epic epic = (Epic) taskStorage.get(id);
                 for (int index : epic.subtaskIdList) {
@@ -190,8 +180,8 @@ public class Manager {
         }
     }
 
-    void printEpicsSubtasks(int id) {
-        if (taskStorage.containsKey(id)&&taskStorage.get(id).getClass().equals(Epic.class)) {
+    public void printEpicsSubtasks(int id) {
+        if (taskStorage.containsKey(id) && taskStorage.get(id).getClass().equals(Epic.class)) {
             System.out.println("id = " + id + "; Эпик = " + taskStorage.get(id));
             Epic printEpic = (Epic) taskStorage.get(id);
             for (int subtask : printEpic.subtaskIdList) {
@@ -208,6 +198,4 @@ public class Manager {
         }
         return result.toString();
     }
-
-
 }

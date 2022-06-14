@@ -1,3 +1,5 @@
+package kanban;
+
 public class Task {
     String name;
     String description;
