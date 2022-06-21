@@ -2,23 +2,29 @@ package kanban;
 
 import java.util.HashMap;
 
-public class Manager {
-    String[] statusList = {"NEW", "IN_PROGRESS", "DONE"};
+
+public class InMemoryTaskManager implements TaskManager {
+
     int id = 100000;
     HashMap<Integer, Task> taskStorage = new HashMap<>();
     HashMap<Integer, Epic> epicStorage = new HashMap<>();
     HashMap<Integer, Subtask> subtaskStorage = new HashMap<>();
+    InMemoryHistoryManager inMemoryHistoryManager = new InMemoryHistoryManager();
 
+
+    @Override
     public void newTask(Task task) {
         taskStorage.put(id, task);
         id++;
     }
 
+    @Override
     public void newEpic(Epic epic) {
         epicStorage.put(id, epic);
         id++;
     }
 
+    @Override
     public void newSubtask(Subtask subtask) {
         if (epicStorage.containsKey(subtask.epicId)) {
             Epic addId = epicStorage.get(subtask.epicId);
@@ -30,58 +36,73 @@ public class Manager {
         }
     }
 
+    @Override
     public void printTasks() {
         for (Integer key : taskStorage.keySet()) {
             System.out.println("id = " + key + "; Задача = " + taskStorage.get(key));
         }
     }
 
+    @Override
     public void printEpics() {
         for (Integer key : epicStorage.keySet()) {
             System.out.println("id = " + key + "; Эпик = " + epicStorage.get(key));
         }
     }
 
+    @Override
     public void printSubtasks() {
         for (Integer key : subtaskStorage.keySet()) {
             System.out.println("id = " + key + "; Подзадача = " + subtaskStorage.get(key));
         }
     }
 
+    @Override
     public void clearTasks() {
         taskStorage.clear();
     }
 
+    @Override
     public void clearEpics() {
         epicStorage.clear();
     }
 
+    @Override
     public void clearSubtasks() {
         subtaskStorage.clear();
     }
 
-    public void findTask(int id) {
+    @Override
+    public void getTask(int id) {
         if (taskStorage.containsKey(id)) {
             System.out.println("id = " + id + "; Задача = " + taskStorage.get(id));
+            inMemoryHistoryManager.addHistory(taskStorage.get(id));
         } else {
             System.out.println("Такой задачи нет");
         }
     }
-    public void findEpic(int id) {
+
+    @Override
+    public void getEpic(int id) {
         if (epicStorage.containsKey(id)) {
             System.out.println("id = " + id + "; Задача = " + epicStorage.get(id));
+            inMemoryHistoryManager.addHistory(epicStorage.get(id));
         } else {
             System.out.println("Такого эпика нет");
         }
     }
-    public void findSubtask(int id) {
+
+    @Override
+    public void getSubtask(int id) {
         if (subtaskStorage.containsKey(id)) {
             System.out.println("id = " + id + "; Задача = " + subtaskStorage.get(id));
+            inMemoryHistoryManager.addHistory(subtaskStorage.get(id));
         } else {
             System.out.println("Такой подзадачи нет");
         }
     }
 
+    @Override
     public void updateTask(int id, Task task) {
         if (taskStorage.containsKey(id)) {
             taskStorage.put(id, task);
@@ -90,6 +111,7 @@ public class Manager {
         }
     }
 
+    @Override
     public void updateEpic(int id, Epic epic) {
         if (epicStorage.containsKey(id)) {
             epicStorage.put(id, epic);
@@ -98,6 +120,7 @@ public class Manager {
         }
     }
 
+    @Override
     public void updateSubtask(int id, Subtask subtask) {
         if (subtaskStorage.containsKey(id)) {
             subtaskStorage.put(id, subtask);
@@ -113,21 +136,22 @@ public class Manager {
         Epic epic = epicStorage.get(epicId);
         for (int id : epic.subtaskIdList) {
             Subtask subtask = subtaskStorage.get(id);
-            if (statusList[0].equals(subtask.status)) {
+            if (subtask.status.equals(Status.NEW)) {
                 newStatus++;
-            } else if (statusList[2].equals(subtask.status)) {
+            } else if (subtask.status.equals(Status.DONE)) {
                 doneStatus++;
             }
         }
         if (newStatus == epic.subtaskIdList.size()) {
-            epic.status = statusList[0];
+            epic.status = Status.NEW;
         } else if (doneStatus == epic.subtaskIdList.size()) {
-            epic.status = statusList[2];
+            epic.status = Status.DONE;
         } else {
-            epic.status = statusList[1];
+            epic.status = Status.IN_PROGRESS;
         }
     }
 
+    @Override
     public void deleteTask(int id) {
         if (taskStorage.containsKey(id)) {
             taskStorage.remove(id);
@@ -137,6 +161,7 @@ public class Manager {
         }
     }
 
+    @Override
     public void deleteEpic(int id) {
         if (epicStorage.containsKey(id)) {
             Epic epic = epicStorage.get(id);
@@ -150,6 +175,7 @@ public class Manager {
         }
     }
 
+    @Override
     public void deleteSubtask(int id) {
         if (subtaskStorage.containsKey(id)) {
             Subtask subtask = subtaskStorage.get(id);
@@ -162,6 +188,7 @@ public class Manager {
         }
     }
 
+    @Override
     public void printEpicsSubtasks(int id) {
         if (epicStorage.containsKey(id)) {
             System.out.println("id = " + id + "; Эпик = " + epicStorage.get(id));

@@ -3,15 +3,15 @@ package kanban;
 public class Task {
     String name;
     String description;
-    String status;
+    Status status;
 
     public Task(String name, String description) {
         this.name = name;
         this.description = description;
-        this.status = "NEW";
+        this.status = Status.NEW;
     }
 
-    public Task(String name, String description, String status) {
+    public Task(String name, String description, Status status) {
         this.name = name;
         this.description = description;
         this.status = status;
