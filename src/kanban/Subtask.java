@@ -1,7 +1,7 @@
 package kanban;
 
 public class Subtask extends Task {
-    int epicId;
+    Integer epicId;
 
     public Subtask(String name, String description, int epicId) {
         super(name, description);

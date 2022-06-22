@@ -11,7 +11,6 @@ public class InMemoryTaskManager implements TaskManager {
     HashMap<Integer, Subtask> subtaskStorage = new HashMap<>();
     InMemoryHistoryManager inMemoryHistoryManager = new InMemoryHistoryManager();
 
-
     @Override
     public void newTask(Task task) {
         taskStorage.put(id, task);
@@ -32,7 +31,7 @@ public class InMemoryTaskManager implements TaskManager {
             subtaskStorage.put(id, subtask);
             id++;
         } else {
-            System.out.println("Ошибка при создании задачи.");
+            System.out.println("Ошибка при создании подзадачи.");
         }
     }
 
@@ -100,6 +99,18 @@ public class InMemoryTaskManager implements TaskManager {
         } else {
             System.out.println("Такой подзадачи нет");
         }
+    }
+
+    @Override
+    public Integer getEpicId(Epic epic) {
+        Integer epicId = 0;
+        for (Integer key : epicStorage.keySet()) {
+            if (epicStorage.get(key).equals(epic)) {
+                epicId = key;
+                break;
+            }
+        }
+        return epicId;
     }
 
     @Override

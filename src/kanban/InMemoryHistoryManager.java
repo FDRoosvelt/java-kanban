@@ -9,12 +9,10 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public void addHistory(Task task) {
-        if (history.size()<10) {
-            history.add(task);
-        } else {
+        if (history.size()>9) {
             history.remove(0);
-            history.add(task);
         }
+        history.add(task);
     }
 
     @Override
@@ -24,7 +22,7 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public String toString() {
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
         for (Task task : history) {
             result.append(task).append("\n");
         }

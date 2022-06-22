@@ -1,10 +1,10 @@
 package kanban;
 
-public class Managers<T extends TaskManager> {
+public class Managers{
 
-    T taskManager;
+    static TaskManager taskManager = new InMemoryTaskManager();
 
-    public T getDefault() {
+    static public TaskManager getDefault() {
         return taskManager;
     }
 }
