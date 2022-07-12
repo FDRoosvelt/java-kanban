@@ -1,7 +1,10 @@
 package kanban;
 
+import java.util.List;
+
 public interface TaskManager {
 
+    void printHistory();
     void newTask(Task task);
     void newEpic(Epic epic);
     void newSubtask(Subtask subtask);

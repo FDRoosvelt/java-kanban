@@ -1,6 +1,7 @@
 package kanban;
 
 import java.util.HashMap;
+import java.util.List;
 
 
 public class InMemoryTaskManager implements TaskManager {
@@ -9,7 +10,13 @@ public class InMemoryTaskManager implements TaskManager {
     HashMap<Integer, Task> taskStorage = new HashMap<>();
     HashMap<Integer, Epic> epicStorage = new HashMap<>();
     HashMap<Integer, Subtask> subtaskStorage = new HashMap<>();
-    InMemoryHistoryManager inMemoryHistoryManager = new InMemoryHistoryManager();
+    HistoryManager historyManager = new InMemoryHistoryManager();
+
+    public void printHistory() {
+        for (Task element : historyManager.getHistory()) {
+            System.out.println("Задача = "+element);
+        }
+    }
 
     @Override
     public void newTask(Task task) {
@@ -75,7 +82,7 @@ public class InMemoryTaskManager implements TaskManager {
     public void getTask(int id) {
         if (taskStorage.containsKey(id)) {
             System.out.println("id = " + id + "; Задача = " + taskStorage.get(id));
-            inMemoryHistoryManager.addHistory(taskStorage.get(id));
+            historyManager.addHistory(id, taskStorage.get(id));
         } else {
             System.out.println("Такой задачи нет");
         }
@@ -85,7 +92,7 @@ public class InMemoryTaskManager implements TaskManager {
     public void getEpic(int id) {
         if (epicStorage.containsKey(id)) {
             System.out.println("id = " + id + "; Задача = " + epicStorage.get(id));
-            inMemoryHistoryManager.addHistory(epicStorage.get(id));
+            historyManager.addHistory(id, epicStorage.get(id));
         } else {
             System.out.println("Такого эпика нет");
         }
@@ -95,7 +102,7 @@ public class InMemoryTaskManager implements TaskManager {
     public void getSubtask(int id) {
         if (subtaskStorage.containsKey(id)) {
             System.out.println("id = " + id + "; Задача = " + subtaskStorage.get(id));
-            inMemoryHistoryManager.addHistory(subtaskStorage.get(id));
+            historyManager.addHistory(id, subtaskStorage.get(id));
         } else {
             System.out.println("Такой подзадачи нет");
         }
@@ -224,6 +231,7 @@ public class InMemoryTaskManager implements TaskManager {
                 }
             }
         }
+
         return result.toString();
     }
 }

@@ -3,6 +3,7 @@ package kanban;
 import java.util.List;
 
 public interface HistoryManager {
-    void addHistory(Task task);
+    void addHistory(int id, Task task);
+    void remove(int id);
     List<Task> getHistory();
 }
