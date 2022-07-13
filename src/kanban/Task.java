@@ -1,11 +1,13 @@
 package kanban;
 
 public class Task {
+    int id;
     String name;
     String description;
     Status status;
 
-    public Task(String name, String description) {
+    protected Task(int id, String name, String description) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.status = Status.NEW;
@@ -19,8 +21,8 @@ public class Task {
 
     @Override
     public String toString() {
-        String result = "{ name = " + name +
-                "; description = " + description + "; status = " + status + " }";
+        String result = "id = " + id + "; name = " + name +
+                "; description = " + description + "; status = " + status;
         return result;
     }
 }

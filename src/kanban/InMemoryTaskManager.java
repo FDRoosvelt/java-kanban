@@ -19,19 +19,22 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void newTask(Task task) {
+    public void newTask(String name, String description) {
+        Task task = new Task(id, name, description);
         taskStorage.put(id, task);
         id++;
     }
 
     @Override
-    public void newEpic(Epic epic) {
+    public void newEpic(String name, String description) {
+        Epic epic = new Epic(id, name, description);
         epicStorage.put(id, epic);
         id++;
     }
 
     @Override
-    public void newSubtask(Subtask subtask) {
+    public void newSubtask(String name, String description, int epicId) {
+        Subtask subtask = new Subtask(id, name, description, epicId);
         if (epicStorage.containsKey(subtask.epicId)) {
             Epic addId = epicStorage.get(subtask.epicId);
             addId.addSubtask(id);
@@ -45,21 +48,21 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void printTasks() {
         for (Integer key : taskStorage.keySet()) {
-            System.out.println("id = " + key + "; Задача = " + taskStorage.get(key));
+            System.out.println(taskStorage.get(key));
         }
     }
 
     @Override
     public void printEpics() {
         for (Integer key : epicStorage.keySet()) {
-            System.out.println("id = " + key + "; Эпик = " + epicStorage.get(key));
+            System.out.println(epicStorage.get(key));
         }
     }
 
     @Override
     public void printSubtasks() {
         for (Integer key : subtaskStorage.keySet()) {
-            System.out.println("id = " + key + "; Подзадача = " + subtaskStorage.get(key));
+            System.out.println(subtaskStorage.get(key));
         }
     }
 
@@ -79,40 +82,39 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void getTask(int id) {
+    public Task getTask(int id) {
         if (taskStorage.containsKey(id)) {
-            System.out.println("id = " + id + "; Задача = " + taskStorage.get(id));
             historyManager.addHistory(id, taskStorage.get(id));
+            return taskStorage.get(id);
         } else {
-            System.out.println("Такой задачи нет");
+            return null;
         }
     }
 
     @Override
-    public void getEpic(int id) {
-        if (epicStorage.containsKey(id)) {
-            System.out.println("id = " + id + "; Задача = " + epicStorage.get(id));
-            historyManager.addHistory(id, epicStorage.get(id));
-        } else {
-            System.out.println("Такого эпика нет");
+    public Task getEpic(int id) {
+        if (!epicStorage.containsKey(id)) {
+            return null;
         }
+        historyManager.addHistory(id, epicStorage.get(id));
+        return epicStorage.get(id);
     }
 
     @Override
-    public void getSubtask(int id) {
+    public Task getSubtask(int id) {
         if (subtaskStorage.containsKey(id)) {
-            System.out.println("id = " + id + "; Задача = " + subtaskStorage.get(id));
             historyManager.addHistory(id, subtaskStorage.get(id));
+            return subtaskStorage.get(id);
         } else {
-            System.out.println("Такой подзадачи нет");
+            return null;
         }
     }
 
     @Override
-    public Integer getEpicId(Epic epic) {
+    public int getEpicId(String epicName) {
         Integer epicId = 0;
         for (Integer key : epicStorage.keySet()) {
-            if (epicStorage.get(key).equals(epic)) {
+            if (epicStorage.get(key).name.equals(epicName)) {
                 epicId = key;
                 break;
             }
@@ -123,6 +125,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void updateTask(int id, Task task) {
         if (taskStorage.containsKey(id)) {
+            task.id=id;
             taskStorage.put(id, task);
         } else {
             System.out.println("Нет такой задачи");
@@ -132,6 +135,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void updateEpic(int id, Epic epic) {
         if (epicStorage.containsKey(id)) {
+            epic.id=id;
             epicStorage.put(id, epic);
         } else {
             System.out.println("Нет такого эпика");
@@ -141,6 +145,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void updateSubtask(int id, Subtask subtask) {
         if (subtaskStorage.containsKey(id)) {
+            subtask.id=id;
             subtaskStorage.put(id, subtask);
             logicStatus(subtask.epicId);
         } else {
@@ -209,10 +214,10 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void printEpicsSubtasks(int id) {
         if (epicStorage.containsKey(id)) {
-            System.out.println("id = " + id + "; Эпик = " + epicStorage.get(id));
+            System.out.println("Эпик = " + epicStorage.get(id));
             Epic printSubtasks = epicStorage.get(id);
             for (int subtask : printSubtasks.subtaskIdList) {
-                System.out.println("id = " + subtask + "; Подзадача = " + subtaskStorage.get(subtask));
+                System.out.println("Подзадача = " + subtaskStorage.get(subtask));
             }
         }
     }
@@ -221,13 +226,13 @@ public class InMemoryTaskManager implements TaskManager {
     public String toString() {
         StringBuffer result = new StringBuffer();
         for (Integer idTask : taskStorage.keySet()) {
-            result.append("id = ").append(idTask).append("; Задача = ").append(taskStorage.get(idTask)).append("\n");
+            result.append(taskStorage.get(idTask)).append("\n");
         }
         for (Integer idEpic : epicStorage.keySet()) {
-            result.append("id = ").append(idEpic).append("; Задача = ").append(epicStorage.get(idEpic)).append("\n");
+            result.append(epicStorage.get(idEpic)).append("\n");
             for (Integer idSubtask : subtaskStorage.keySet()) {
                 if (idEpic.equals(subtaskStorage.get(idSubtask).epicId)) {
-                    result.append("id = ").append(idSubtask).append("; Задача = ").append(subtaskStorage.get(idSubtask)).append("\n");
+                    result.append(subtaskStorage.get(idSubtask)).append("\n");
                 }
             }
         }
