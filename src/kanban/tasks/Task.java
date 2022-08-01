@@ -1,16 +1,18 @@
-package kanban;
+package kanban.tasks;
+
+import kanban.Status;
 
 public class Task {
-    int id;
-    String name;
-    String description;
-    Status status;
+    public int id;
+    public String name;
+    public String description;
+    public Status status;
 
-    protected Task(int id, String name, String description) {
+    public Task(int id, String name, String description, Status status) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.status = Status.NEW;
+        this.status = status;
     }
 
     public Task(String name, String description, Status status) {

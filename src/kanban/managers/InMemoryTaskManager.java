@@ -1,16 +1,25 @@
-package kanban;
+package kanban.managers;
 
+
+
+import kanban.HistoryManager;
+import kanban.Status;
+import kanban.TaskManager;
+import kanban.tasks.Epic;
+import kanban.tasks.Subtask;
+import kanban.tasks.Task;
+
+import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 
 
 public class InMemoryTaskManager implements TaskManager {
 
-    int id = 100000;
-    HashMap<Integer, Task> taskStorage = new HashMap<>();
-    HashMap<Integer, Epic> epicStorage = new HashMap<>();
-    HashMap<Integer, Subtask> subtaskStorage = new HashMap<>();
-    HistoryManager historyManager = new InMemoryHistoryManager();
+    static int id = 100000;
+    static HashMap<Integer, Task> taskStorage = new HashMap<>();
+    static HashMap<Integer, Epic> epicStorage = new HashMap<>();
+    static HashMap<Integer, Subtask> subtaskStorage = new HashMap<>();
+    static HistoryManager historyManager = new InMemoryHistoryManager();
 
     public void printHistory() {
         for (Task element : historyManager.getHistory()) {
@@ -19,25 +28,25 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void newTask(String name, String description) {
-        Task task = new Task(id, name, description);
+    public void newTask(String name, String description) throws IOException {
+        Task task = new Task(id, name, description, Status.NEW);
         taskStorage.put(id, task);
         id++;
     }
 
     @Override
-    public void newEpic(String name, String description) {
-        Epic epic = new Epic(id, name, description);
+    public void newEpic(String name, String description) throws IOException {
+        Epic epic = new Epic(id, name, description, Status.NEW);
         epicStorage.put(id, epic);
         id++;
     }
 
     @Override
-    public void newSubtask(String name, String description, int epicId) {
-        Subtask subtask = new Subtask(id, name, description, epicId);
+    public void newSubtask(String name, String description, int epicId) throws IOException {
+        Subtask subtask = new Subtask(id, name, description, epicId, Status.NEW);
         if (epicStorage.containsKey(subtask.epicId)) {
-            Epic addId = epicStorage.get(subtask.epicId);
-            addId.addSubtask(id);
+            Epic epic = epicStorage.get(subtask.epicId);
+            epic.addSubtask(id);
             subtaskStorage.put(id, subtask);
             id++;
         } else {
@@ -67,22 +76,22 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void clearTasks() {
+    public void clearTasks() throws IOException {
         taskStorage.clear();
     }
 
     @Override
-    public void clearEpics() {
+    public void clearEpics() throws IOException {
         epicStorage.clear();
     }
 
     @Override
-    public void clearSubtasks() {
+    public void clearSubtasks() throws IOException {
         subtaskStorage.clear();
     }
 
     @Override
-    public Task getTask(int id) {
+    public Task getTask(int id) throws IOException {
         if (taskStorage.containsKey(id)) {
             historyManager.addHistory(id, taskStorage.get(id));
             return taskStorage.get(id);
@@ -92,7 +101,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Task getEpic(int id) {
+    public Task getEpic(int id) throws IOException {
         if (!epicStorage.containsKey(id)) {
             return null;
         }
@@ -101,7 +110,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Task getSubtask(int id) {
+    public Task getSubtask(int id) throws IOException {
         if (subtaskStorage.containsKey(id)) {
             historyManager.addHistory(id, subtaskStorage.get(id));
             return subtaskStorage.get(id);
@@ -123,7 +132,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void updateTask(int id, Task task) {
+    public void updateTask(int id, Task task) throws IOException {
         if (taskStorage.containsKey(id)) {
             task.id=id;
             taskStorage.put(id, task);
@@ -133,7 +142,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void updateEpic(int id, Epic epic) {
+    public void updateEpic(int id, Epic epic) throws IOException {
         if (epicStorage.containsKey(id)) {
             epic.id=id;
             epicStorage.put(id, epic);
@@ -143,7 +152,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void updateSubtask(int id, Subtask subtask) {
+    public void updateSubtask(int id, Subtask subtask) throws IOException {
         if (subtaskStorage.containsKey(id)) {
             subtask.id=id;
             subtaskStorage.put(id, subtask);
@@ -175,7 +184,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void deleteTask(int id) {
+    public void deleteTask(int id) throws IOException {
         if (taskStorage.containsKey(id)) {
             taskStorage.remove(id);
             System.out.println("Задача " + id + " удалена");
@@ -185,7 +194,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void deleteEpic(int id) {
+    public void deleteEpic(int id) throws IOException {
         if (epicStorage.containsKey(id)) {
             Epic epic = epicStorage.get(id);
             for (int index : epic.subtaskIdList) {
@@ -199,7 +208,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void deleteSubtask(int id) {
+    public void deleteSubtask(int id) throws IOException {
         if (subtaskStorage.containsKey(id)) {
             Subtask subtask = subtaskStorage.get(id);
             Epic epic = epicStorage.get(subtask.epicId);
@@ -220,6 +229,10 @@ public class InMemoryTaskManager implements TaskManager {
                 System.out.println("Подзадача = " + subtaskStorage.get(subtask));
             }
         }
+    }
+
+    @Override
+    public void loadFromFile() throws IOException {
     }
 
     @Override

@@ -1,4 +1,7 @@
-package kanban;
+package kanban.managers;
+
+import kanban.HistoryManager;
+import kanban.tasks.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,16 +23,16 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     Node head;
     Node tail;
-    int size = 0;
     HashMap<Integer, Node> nodeMap = new HashMap<>();
-    List<Task> history = new ArrayList<>();
+    static List<Task> history = new ArrayList<>();
+
 
     public void linkLast(Integer id, Task element) {
         Node oldTail = tail;
         Node newNode = new Node<>(tail, element, null);
         tail = newNode;
         if (oldTail == null) {
-            head = tail = newNode;
+            head = newNode;
         } else {
             oldTail.next = newNode;
         }
@@ -55,13 +58,11 @@ public class InMemoryHistoryManager implements HistoryManager {
         } else if (node.prev == null && node.next != null) {
             head = node.next;
             node.next.prev = null;
-            node.next = null;
         } else if (node.prev == null && node.next == null) {
-            head = tail = null;
+           head = tail = null;
         } else if (node.prev != null && node.next == null) {
             tail = node.prev;
             node.prev.next = null;
-            node.prev = null;
         }
     }
 
@@ -84,6 +85,10 @@ public class InMemoryHistoryManager implements HistoryManager {
         history.clear();
         getTasks();
         return history;
+    }
+
+    public void loadHistory(List<Task> list) {
+        this.history = list;
     }
 
     @Override
