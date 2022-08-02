@@ -12,18 +12,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileBackedTasksManager extends InMemoryTaskManager {
-    private static final String HOME = System.getProperty("user.home") + "\\dev\\java-kanban\\src\\kanban";
+    private static final String HOME = System.getProperty("user.dir");
+    static File file;
+
     @Override
     public void loadFromFile() throws IOException {
         try {
             tasksFromString();
             historyFromString();
         } catch (NullPointerException e) {
+            file = new File(HOME+"\\src\\kanban\\data\\data.csv");
         }
     }
 
     public void save() throws IOException {
-        BufferedWriter bw = new BufferedWriter(new FileWriter(HOME + "\\data\\data.csv"));
+        BufferedWriter bw = new BufferedWriter(new FileWriter(file));
         bw.write("id,type,name,status,description,epic");
         for (int id : taskStorage.keySet()) {
             bw.write("\n" + taskToString(taskStorage.get(id)));
@@ -51,7 +54,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         String lastLine = null;
         int length = 0;
         List<Task> historyList = new ArrayList<>();
-        BufferedReader br = new BufferedReader(new FileReader(HOME + "\\data\\data.csv"));
+        BufferedReader br = new BufferedReader(new FileReader(file));
         while (br.ready()) {
             lastLine = br.readLine();
         }
@@ -72,7 +75,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
     public void tasksFromString() throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader(HOME + "\\data\\data.csv"));
+        BufferedReader br = new BufferedReader(new FileReader(file));
         int lineCount = 0;
         while (br.ready()) {
             String line = br.readLine();
@@ -93,7 +96,6 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                     subtaskStorage.put(subtask.id, subtask);
                     epicStorage.get(subtask.epicId).addSubtask(subtask.id);
                 }
-
             }
         }
         br.close();
