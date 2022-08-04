@@ -8,12 +8,10 @@ import kanban.tasks.Subtask;
 import kanban.tasks.Task;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class FileBackedTasksManager extends InMemoryTaskManager {
     private static final String HOME = System.getProperty("user.dir");
-    static File file;
+    static File file = new File(HOME+"\\src\\kanban\\data\\data.csv");
 
     @Override
     public void loadFromFile() throws IOException {
@@ -21,7 +19,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
             tasksFromString();
             historyFromString();
         } catch (NullPointerException e) {
-            file = new File(HOME+"\\src\\kanban\\data\\data.csv");
+
         }
     }
 
@@ -53,7 +51,6 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     static void historyFromString() throws IOException {
         String lastLine = null;
         int length = 0;
-        List<Task> historyList = new ArrayList<>();
         BufferedReader br = new BufferedReader(new FileReader(file));
         while (br.ready()) {
             lastLine = br.readLine();
@@ -62,16 +59,18 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         if (length > 3) {
             for (int i = 0; i < idList.length; i++) {
                 if (taskStorage.containsKey(Integer.parseInt(idList[i]))) {
-                    historyList.add(taskStorage.get(Integer.parseInt(idList[i])));
+                    InMemoryHistoryManager.history.add(taskStorage.get(Integer.parseInt(idList[i])));
                 } else if (epicStorage.containsKey(Integer.parseInt(idList[i]))) {
-                    historyList.add(epicStorage.get(Integer.parseInt(idList[i])));
+                    InMemoryHistoryManager.history.add(epicStorage.get(Integer.parseInt(idList[i])));
                 } else if (subtaskStorage.containsKey(Integer.parseInt(idList[i]))) {
-                    historyList.add(subtaskStorage.get(Integer.parseInt(idList[i])));
+                    InMemoryHistoryManager.history.add(subtaskStorage.get(Integer.parseInt(idList[i])));
                 }
             }
         }
         br.close();
-        historyManager.loadHistory(historyList);
+        for (Task task : InMemoryHistoryManager.history) {
+            InMemoryHistoryManager.linkLast(task.id, task);
+        }
     }
 
     public void tasksFromString() throws IOException {

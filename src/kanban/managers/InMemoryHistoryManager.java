@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class InMemoryHistoryManager implements HistoryManager {
-    class Node<Task>{
+    static class Node<Task>{
         public Task data;
         public Node<Task> prev;
         public Node<Task> next;
@@ -21,13 +21,13 @@ public class InMemoryHistoryManager implements HistoryManager {
         }
     }
 
-    Node head;
-    Node tail;
-    HashMap<Integer, Node> nodeMap = new HashMap<>();
+    static Node head;
+    static Node tail;
+    static HashMap<Integer, Node> nodeMap = new HashMap<>();
     static List<Task> history = new ArrayList<>();
 
 
-    public void linkLast(Integer id, Task element) {
+    public static void linkLast(Integer id, Task element) {
         Node oldTail = tail;
         Node newNode = new Node<>(tail, element, null);
         tail = newNode;

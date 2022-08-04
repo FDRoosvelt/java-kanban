@@ -1,7 +1,5 @@
 package kanban.managers;
 
-
-
 import kanban.HistoryManager;
 import kanban.Status;
 import kanban.TaskManager;
@@ -11,7 +9,6 @@ import kanban.tasks.Task;
 
 import java.io.IOException;
 import java.util.HashMap;
-
 
 public class InMemoryTaskManager implements TaskManager {
 
