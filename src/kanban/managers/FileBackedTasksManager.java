@@ -8,69 +8,77 @@ import kanban.tasks.Subtask;
 import kanban.tasks.Task;
 
 import java.io.*;
+import java.util.LinkedList;
+import java.util.List;
 
 public class FileBackedTasksManager extends InMemoryTaskManager {
     private static final String HOME = System.getProperty("user.dir");
-    static File file = new File(HOME+"\\src\\kanban\\data\\data.csv");
+    static File file = new File(HOME+"/src/kanban/data/data.csv");
 
     @Override
-    public void loadFromFile() throws IOException {
+    public void loadFromFile() {
         try {
             tasksFromString();
             historyFromString();
-        } catch (NullPointerException e) {
+        } catch (IOException e) {
+            e.getMessage();
+        }
 
+    }
+
+    public void save() {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
+            bw.write("id,type,name,status,description,epic");
+            for (int id : taskStorage.keySet()) {
+                bw.write("\n" + taskToString(taskStorage.get(id)));
+            }
+            for (int id : epicStorage.keySet()) {
+                bw.write("\n" + taskToString(epicStorage.get(id)));
+            }
+            for (int id : subtaskStorage.keySet()) {
+                bw.write("\n" + taskToString(subtaskStorage.get(id)));
+            }
+            bw.write("\n\n");
+            bw.write(historyToString(historyManager));
+        } catch (IOException e) {
+            e.getMessage();
         }
     }
 
-    public void save() throws IOException {
-        BufferedWriter bw = new BufferedWriter(new FileWriter(file));
-        bw.write("id,type,name,status,description,epic");
-        for (int id : taskStorage.keySet()) {
-            bw.write("\n" + taskToString(taskStorage.get(id)));
-        }
-        for (int id : epicStorage.keySet()) {
-            bw.write("\n" + taskToString(epicStorage.get(id)));
-        }
-        for (int id : subtaskStorage.keySet()) {
-            bw.write("\n" + taskToString(subtaskStorage.get(id)));
-        }
-        bw.write("\n\n");
-        bw.write(historyToString(historyManager));
-        bw.close();
-    }
-
-    static String historyToString(HistoryManager manager) {
-        String historyLine = "";
+    String historyToString(HistoryManager manager) {
+        List<String> historyLine = new LinkedList<>();
         for (Task task : manager.getHistory()) {
-            historyLine += Integer.toString(task.id) + ",";
+            if (historyLine.size() > 9) {
+                historyLine.remove(0);
+            }
+            historyLine.add(Integer.toString(task.id));
         }
-        return historyLine;
+        return String.join(",", historyLine);
     }
 
-    static void historyFromString() throws IOException {
+    void historyFromString() throws IOException {
         String lastLine = null;
         int length = 0;
         BufferedReader br = new BufferedReader(new FileReader(file));
         while (br.ready()) {
             lastLine = br.readLine();
+            length++;
         }
-        String[] idList = lastLine.split(",");
         if (length > 3) {
-            for (int i = 0; i < idList.length; i++) {
-                if (taskStorage.containsKey(Integer.parseInt(idList[i]))) {
-                    InMemoryHistoryManager.history.add(taskStorage.get(Integer.parseInt(idList[i])));
-                } else if (epicStorage.containsKey(Integer.parseInt(idList[i]))) {
-                    InMemoryHistoryManager.history.add(epicStorage.get(Integer.parseInt(idList[i])));
-                } else if (subtaskStorage.containsKey(Integer.parseInt(idList[i]))) {
-                    InMemoryHistoryManager.history.add(subtaskStorage.get(Integer.parseInt(idList[i])));
+            String[] idList = lastLine.split(",");
+            for (String idStr : idList) {
+                int idInt = Integer.parseInt(idStr);
+                if (taskStorage.containsKey(idInt)) {
+                    historyManager.addHistory(idInt, taskStorage.get(idInt) );
+                } else if (epicStorage.containsKey(idInt)) {
+                    historyManager.addHistory(idInt, epicStorage.get(idInt) );
+                } else if (subtaskStorage.containsKey(idInt)) {
+                    historyManager.addHistory(idInt, subtaskStorage.get(idInt) );
                 }
             }
         }
         br.close();
-        for (Task task : InMemoryHistoryManager.history) {
-            InMemoryHistoryManager.linkLast(task.id, task);
-        }
+        historyManager.getTasks();
     }
 
     public void tasksFromString() throws IOException {
@@ -103,104 +111,104 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     public String taskToString(Task task) {
         String taskString = null;
         if (task.getClass().equals(Subtask.class)) {
-            taskString = (Integer.toString(task.id) + "," + Type.valueOf("SUBTASK") + "," + task.name + "," + String.valueOf(task.status) + "," + task.description +","+ ((Subtask) task).epicId);
+            taskString = (task.id + "," + Type.valueOf("SUBTASK") + "," + task.name + "," + task.status + "," + task.description +","+ ((Subtask) task).epicId);
         } else if (task.getClass().equals(Epic.class)){
-            taskString = (Integer.toString(task.id) + "," + Type.valueOf("EPIC") + "," + task.name + "," + String.valueOf(task.status) + "," + task.description);
+            taskString = (task.id + "," + Type.valueOf("EPIC") + "," + task.name + "," + task.status + "," + task.description);
         } else {
-            taskString = (Integer.toString(task.id) + "," + Type.valueOf("TASK") + "," + task.name + "," + String.valueOf(task.status) + "," + task.description);
+            taskString = (task.id + "," + Type.valueOf("TASK") + "," + task.name + "," + task.status + "," + task.description);
         }
         return taskString;
     }
 
     @Override
-    public void newTask(String name, String description) throws IOException {
+    public void newTask(String name, String description) {
         super.newTask(name, description);
         save();
     }
 
     @Override
-    public void newEpic(String name, String description) throws IOException {
+    public void newEpic(String name, String description) {
         super.newEpic(name, description);
         save();
     }
 
     @Override
-    public void newSubtask(String name, String description, int epicId) throws IOException {
+    public void newSubtask(String name, String description, int epicId) {
         super.newSubtask(name, description, epicId);
         save();
     }
 
     @Override
-    public Task getTask(int id) throws IOException {
+    public Task getTask(int id) {
         Task task = super.getTask(id);
         save();
         return task;
     }
 
     @Override
-    public Task getEpic(int id) throws IOException {
+    public Task getEpic(int id) {
         Task task = super.getEpic(id);
         save();
         return task;
     }
 
     @Override
-    public Task getSubtask(int id) throws IOException {
+    public Task getSubtask(int id) {
         Task task = super.getSubtask(id);
         save();
         return task;
     }
 
     @Override
-    public void clearTasks() throws IOException {
+    public void clearTasks() {
         super.clearTasks();
         save();
     }
 
     @Override
-    public void clearEpics() throws IOException {
+    public void clearEpics() {
         super.clearEpics();
         save();
     }
 
     @Override
-    public void clearSubtasks() throws IOException {
+    public void clearSubtasks() {
         super.clearSubtasks();
         save();
     }
 
     @Override
-    public void updateTask(int id, Task task) throws IOException {
+    public void updateTask(int id, Task task) {
         super.updateTask(id, task);
         save();
     }
 
     @Override
-    public void updateEpic(int id, Epic epic) throws IOException {
+    public void updateEpic(int id, Epic epic) {
         super.updateEpic(id, epic);
         save();
     }
 
     @Override
-    public void updateSubtask(int id, Subtask subtask) throws IOException {
+    public void updateSubtask(int id, Subtask subtask) {
         super.updateSubtask(id, subtask);
         save();
     }
 
     @Override
-    public void deleteTask(int id) throws IOException {
+    public void deleteTask(int id) {
         super.deleteTask(id);
         save();
     }
 
     @Override
-    public void deleteEpic(int id) throws IOException {
+    public void deleteEpic(int id) {
         super.deleteEpic(id);
         save();
     }
 
     @Override
-    public void deleteSubtask(int id) throws IOException {
+    public void deleteSubtask(int id) {
         super.deleteSubtask(id);
         save();
     }

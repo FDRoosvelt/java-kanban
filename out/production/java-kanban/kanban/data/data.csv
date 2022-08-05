@@ -1,6 +1,0 @@
-id,type,name,status,description,epic
-100000,TASK,task 1,NEW,Описание эпика 1
-100001,EPIC,epic 1,NEW,Описание эпика 1
-100002,SUBTASK,sub 1,NEW,Описание эпика 1,100001
-
-100000,100002,100001,
