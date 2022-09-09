@@ -1,4 +1,5 @@
-import kanban.*;
+import kanban.Managers;
+import kanban.TaskManager;
 
 import java.io.IOException;
 
@@ -6,40 +7,18 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         TaskManager taskManager = Managers.getDefault();
-        /*taskManager.newTask("task 1", "Описание эпика 1");
-        taskManager.newEpic("epic 1", "Описание эпика 1");
-        taskManager.newSubtask("sub 1", "Описание эпика 1", taskManager.getEpicId("epic 1"));
-        taskManager.newTask("task 1", "Описание эпика 1");
-        taskManager.newEpic("epic 1", "Описание эпика 1");
-        taskManager.newSubtask("sub 1", "Описание эпика 1", taskManager.getEpicId("epic 1"));
-        taskManager.newTask("task 1", "Описание эпика 1");
-        taskManager.newEpic("epic 1", "Описание эпика 1");
-        taskManager.newSubtask("sub 1", "Описание эпика 1", taskManager.getEpicId("epic 1"));
-        taskManager.newTask("task 1", "Описание эпика 1");
-        taskManager.newEpic("epic 1", "Описание эпика 1");
-        taskManager.newSubtask("sub 1", "Описание эпика 1", taskManager.getEpicId("epic 1"));
-        taskManager.newTask("task 1", "Описание эпика 1");
-        taskManager.newEpic("epic 1", "Описание эпика 1");
-        taskManager.newSubtask("sub 1", "Описание эпика 1", taskManager.getEpicId("epic 1"));*/
-        taskManager.getTask(100000);
-        taskManager.getTask(100000);
-        taskManager.getSubtask(100002);
-        taskManager.getEpic(100001);
-        taskManager.getSubtask(100011);
-        taskManager.getSubtask(100014);
-        taskManager.getEpic(100013);
-        taskManager.getTask(100012);
-        taskManager.getEpic(100010);
-        taskManager.getTask(100009);
-        taskManager.getSubtask(100008);
-        taskManager.getEpic(100007);
-        taskManager.getTask(100006);
-        taskManager.getSubtask(100005);
-        taskManager.getEpic(100004);
-        taskManager.getTask(100003);
-        taskManager.getTask(100000);
-        taskManager.getEpic(100001);
-        System.out.println("\nHistory");
-        taskManager.printHistory();
+        taskManager.newTask("task 1", "Описание task 1", 10, "01.01.1010 01:01");
+        taskManager.newTask("task 2", "Описание task 2", 10, "01.01.1010 02:01");
+        taskManager.newTask("task 3", "Описание task 3", 10, "01.01.1010 01:13");
+        taskManager.newTask("task 4", "Описание task 4", 10, "01.01.1010 00:55");
+        taskManager.newTask("task 6", "Описание task 6", 30, "01.01.1010 00:55");
+        taskManager.newTask("task 7", "Описание task 7", 10, "01.01.1010 01:05");
+        taskManager.newTask("task 8", "Описание task 8", 10, "01.01.1010 01:12");
+        taskManager.newTask("task 9", "Описание task 9", 10, "01.01.1010 01:11");
+        taskManager.newTask("task 5", "Описание task 5", 0, "");
+        taskManager.newTask("task 5", "Описание task 5", 0, "");
+        taskManager.newTask("task 5", "Описание task 5", 0, "");
+        taskManager.newTask("task 5", "Описание task 5", 0, "");
+        taskManager.newTask("task 5", "Описание task 5", 0, "");
     }
 }
