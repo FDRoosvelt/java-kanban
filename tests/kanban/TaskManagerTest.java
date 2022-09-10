@@ -5,10 +5,12 @@ import kanban.managers.InMemoryTaskManager;
 import kanban.tasks.Epic;
 import kanban.tasks.Subtask;
 import kanban.tasks.Task;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -17,11 +19,17 @@ import static org.junit.jupiter.api.Assertions.*;
 class TaskManagerTest {
 
     static TaskManager taskManager;
-
+    static File file;
 
     @BeforeEach
     public void BeforeEach() {
+        file = new File(System.getProperty("user.dir")+"/tests/kanban/data/data.csv");
         taskManager = new InMemoryTaskManager();
+    }
+
+    @AfterEach
+    public void AfterEach() {
+        file.delete();
     }
 
     @Test
@@ -238,27 +246,21 @@ class TaskManagerTest {
 
     @Test
     void loadFromFile() throws IOException {
-        TaskManager taskManager1 = new FileBackedTasksManager();
-        TaskManager taskManager2 = new FileBackedTasksManager();
-        assertTrue(taskManager1.getHistory().isEmpty());
-        assertTrue(taskManager1.getTasks().isEmpty());
-        assertTrue(taskManager1.getEpics().isEmpty());
-        assertTrue(taskManager1.getSubtasks().isEmpty());
-        taskManager1.newTask("task 1", "description task 1", 10, "01.01.1010 01:01");
-        taskManager1.newEpic("epic 1", "description epic 1");
-        taskManager1.newSubtask("sub 1", "description sub 1", "epic 1", 10, "12.12.1212 12:12");
-        taskManager1.getTask(100000);
-        taskManager1.getEpic(100001);
-        taskManager1.getSubtask(100002);
-        assertFalse(taskManager1.getHistory().isEmpty());
-        assertFalse(taskManager1.getTasks().isEmpty());
-        assertFalse(taskManager1.getEpics().isEmpty());
-        assertFalse(taskManager1.getSubtasks().isEmpty());
-        taskManager2.loadFromFile();
-        assertEquals(taskManager1.getHistory().isEmpty(), taskManager2.getHistory().isEmpty());
-        assertEquals(taskManager1.getTasks().isEmpty(), taskManager2.getTasks().isEmpty());
-        assertEquals(taskManager1.getEpics().isEmpty(), taskManager2.getEpics().isEmpty());
-        assertEquals(taskManager1.getSubtasks().isEmpty(), taskManager2.getSubtasks().isEmpty());
+        TaskManager taskManager = new FileBackedTasksManager(file);
+        assertTrue(taskManager.getHistory().isEmpty());
+        assertTrue(taskManager.getTasks().isEmpty());
+        assertTrue(taskManager.getEpics().isEmpty());
+        assertTrue(taskManager.getSubtasks().isEmpty());
+        taskManager.newTask("task 1", "description task 1", 10, "01.01.1010 01:01");
+        taskManager.newEpic("epic 1", "description epic 1");
+        taskManager.newSubtask("sub 1", "description sub 1", "epic 1", 10, "12.12.1212 12:12");
+        taskManager.getTask(100000);
+        taskManager.getEpic(100001);
+        taskManager.getSubtask(100002);
+        assertFalse(taskManager.getHistory().isEmpty());
+        assertFalse(taskManager.getTasks().isEmpty());
+        assertFalse(taskManager.getEpics().isEmpty());
+        assertFalse(taskManager.getSubtasks().isEmpty());
         }
 
     @Test

@@ -14,16 +14,21 @@ import java.util.List;
 import static kanban.tasks.Task.FORMATTER;
 
 public class FileBackedTasksManager extends InMemoryTaskManager {
-    private static final String HOME = System.getProperty("user.dir");
-    static File file = new File(HOME+"/src/kanban/data/data.csv");
 
-    public void loadFromFile() {
+    private final File file;
+    public FileBackedTasksManager(File file) {
+        this.file = file;
+    }
+
+    public static FileBackedTasksManager loadFromFile(File file) {
+        FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager(file);
         try {
-            tasksFromString();
-            historyFromString();
+            tasksFromString(file);
+            historyFromString(file);
         } catch (IOException e) {
-            e.getMessage();
+            System.out.println("Ошибка при считывании из файла");
         }
+        return fileBackedTasksManager;
     }
 
     private void save() {
@@ -56,58 +61,62 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         return String.join(",", historyLine);
     }
 
-    private void historyFromString() throws IOException {
+    private static void historyFromString(File file) throws IOException {
         String lastLine = null;
         int length = 0;
-        BufferedReader br = new BufferedReader(new FileReader(file));
-        while (br.ready()) {
-            lastLine = br.readLine();
-            length++;
-        }
-        if (length > 3) {
-            String[] idList = lastLine.split(",");
-            for (String idStr : idList) {
-                int idInt = Integer.parseInt(idStr);
-                if (taskStorage.containsKey(idInt)) {
-                    historyManager.addHistory(idInt, taskStorage.get(idInt) );
-                } else if (epicStorage.containsKey(idInt)) {
-                    historyManager.addHistory(idInt, epicStorage.get(idInt) );
-                } else if (subtaskStorage.containsKey(idInt)) {
-                    historyManager.addHistory(idInt, subtaskStorage.get(idInt) );
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            while (br.ready()) {
+                lastLine = br.readLine();
+                length++;
+            }
+            if (length > 3) {
+                String[] idList = lastLine.split(",");
+                for (String idStr : idList) {
+                    int idInt = Integer.parseInt(idStr);
+                    if (taskStorage.containsKey(idInt)) {
+                        historyManager.addHistory(idInt, taskStorage.get(idInt));
+                    } else if (epicStorage.containsKey(idInt)) {
+                        historyManager.addHistory(idInt, epicStorage.get(idInt));
+                    } else if (subtaskStorage.containsKey(idInt)) {
+                        historyManager.addHistory(idInt, subtaskStorage.get(idInt));
+                    }
                 }
             }
+        } catch (IOException e) {
+            System.out.println("Не удалось восстановить историю просмотров");
         }
-        br.close();
         historyManager.getTasks();
     }
 
-    private void tasksFromString() throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader(file));
+    private static void tasksFromString(File file) throws IOException {
         int lineCount = 0;
-        while (br.ready()) {
-            String line = br.readLine();
-            lineCount++;
-            if (lineCount > 1 && !line.isEmpty()) {
-                String[] splitLine = line.split(",");
-                if (Integer.parseInt(splitLine[2]) > id) {
-                    id = Integer.parseInt(splitLine[2]);
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            while (br.ready()) {
+                String line = br.readLine();
+                lineCount++;
+                if (lineCount > 1 && !line.isEmpty()) {
+                    String[] splitLine = line.split(",");
+                    if (Integer.parseInt(splitLine[2]) > id) {
+                        id = Integer.parseInt(splitLine[2]);
+                    }
+                    if (splitLine[3].equals(String.valueOf(Type.TASK))) {
+                        Task task = new Task(Integer.parseInt(splitLine[2]), Type.TASK, splitLine[4], splitLine[6], Status.valueOf(splitLine[5]), Integer.parseInt(splitLine[1]), splitLine[0]);
+                        taskStorage.put(task.getId(), task);
+                    } else if (splitLine[3].equals(String.valueOf(Type.EPIC))) {
+                        Epic epic = new Epic(Integer.parseInt(splitLine[2]), Type.EPIC, splitLine[4], splitLine[6], Status.valueOf(splitLine[5]), Integer.parseInt(splitLine[1]), splitLine[0]);
+                        epicStorage.put(epic.getId(), epic);
+                    } else if (splitLine[3].equals(String.valueOf(Type.SUBTASK))) {
+                        Subtask subtask = new Subtask(Integer.parseInt(splitLine[2]), Type.SUBTASK, splitLine[4], splitLine[6], Integer.parseInt(splitLine[7]), Status.valueOf(splitLine[5]), Integer.parseInt(splitLine[1]), splitLine[0]);
+                        subtaskStorage.put(subtask.getId(), subtask);
+                        epicStorage.get(subtask.getEpicId()).addSubtask(subtask.getId());
+                    }
+                } else if (line.isEmpty()) {
+                    break;
                 }
-                if (splitLine[3].equals(String.valueOf(Type.TASK))) {
-                    Task task = new Task(Integer.parseInt(splitLine[2]), Type.TASK, splitLine[4], splitLine[6], Status.valueOf(splitLine[5]), Integer.parseInt(splitLine[1]), splitLine[0]);
-                    taskStorage.put(task.getId(), task);
-                } else if (splitLine[3].equals(String.valueOf(Type.EPIC))) {
-                    Epic epic = new Epic(Integer.parseInt(splitLine[2]), Type.EPIC, splitLine[4], splitLine[6], Status.valueOf(splitLine[5]), Integer.parseInt(splitLine[1]), splitLine[0]);
-                    epicStorage.put(epic.getId(), epic);
-                } else if (splitLine[3].equals(String.valueOf(Type.SUBTASK))) {
-                    Subtask subtask = new Subtask(Integer.parseInt(splitLine[2]), Type.SUBTASK, splitLine[4], splitLine[6], Integer.parseInt(splitLine[7]), Status.valueOf(splitLine[5]), Integer.parseInt(splitLine[1]), splitLine[0]);
-                    subtaskStorage.put(subtask.getId(), subtask);
-                    epicStorage.get(subtask.getEpicId()).addSubtask(subtask.getId());
-                }
-            } else if (line.isEmpty()) {
-                break;
             }
+        } catch (IOException e) {
+            System.out.println("Не удалось ыосстановить список задач");
         }
-        br.close();
     }
 
     private String taskToString(Task task) {

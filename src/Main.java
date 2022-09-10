@@ -16,9 +16,8 @@ public class Main {
         taskManager.newTask("task 8", "Описание task 8", 10, "01.01.1010 01:12");
         taskManager.newTask("task 9", "Описание task 9", 10, "01.01.1010 01:11");
         taskManager.newTask("task 5", "Описание task 5", 0, "");
-        taskManager.newTask("task 5", "Описание task 5", 0, "");
-        taskManager.newTask("task 5", "Описание task 5", 0, "");
-        taskManager.newTask("task 5", "Описание task 5", 0, "");
-        taskManager.newTask("task 5", "Описание task 5", 0, "");
+        taskManager.newTask("task 10", "Описание task 10", 0, "");
+
+        taskManager.getPrioritizedTasks().forEach(System.out::println);
     }
 }

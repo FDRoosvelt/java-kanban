@@ -31,7 +31,6 @@ public interface TaskManager {
     void deleteEpic(int id);
     void deleteSubtask(int id);
     void printEpicsSubtasks(int id);
-    void loadFromFile() throws IOException;
     String getEndTime(int id);
     Set<Task> getPrioritizedTasks();
 }

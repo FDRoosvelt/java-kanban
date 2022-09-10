@@ -8,6 +8,7 @@ import kanban.tasks.Epic;
 import kanban.tasks.Subtask;
 import kanban.tasks.Task;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -20,7 +21,7 @@ public class InMemoryTaskManager implements TaskManager {
     static Map<Integer, Task> taskStorage = new HashMap<>();
     static Map<Integer, Epic> epicStorage = new HashMap<>();
     static Map<Integer, Subtask> subtaskStorage = new HashMap<>();
-    HistoryManager historyManager = new InMemoryHistoryManager();
+    static HistoryManager historyManager = new InMemoryHistoryManager();
 
     @Override
     public List<Task> getHistory() {
@@ -247,10 +248,6 @@ public class InMemoryTaskManager implements TaskManager {
                 System.out.println("Подзадача = " + subtaskStorage.get(subtask));
             }
         }
-    }
-
-    @Override
-    public void loadFromFile() throws IOException {
     }
 
     @Override

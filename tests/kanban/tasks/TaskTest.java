@@ -2,6 +2,7 @@ package kanban.tasks;
 
 import kanban.Status;
 import kanban.Type;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
@@ -12,9 +13,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TaskTest {
 
-    Task task1 = new Task(100, Type.TASK, "name", "description", Status.NEW, 10, "01.01.1010 01:01");
-    Task task2 = new Task(101, Type.TASK, "name", "description", Status.NEW, 10, "");
-    Task task3 = new Task(102, Type.TASK, "name", "description", Status.NEW, 0, "null");
+    static Task task1;
+    static Task task2;
+    static Task task3;
+
+
+    @BeforeEach
+    public void BeforeEach() {
+        task1 = new Task(100, Type.TASK, "name", "description", Status.NEW, 10, "01.01.1010 01:01");
+        task2 = new Task(101, Type.TASK, "name", "description", Status.NEW, 10, "");
+        task3 = new Task(102, Type.TASK, "name", "description", Status.NEW, 0, "null");
+    }
 
     @Test
     void startTimeLogic() {

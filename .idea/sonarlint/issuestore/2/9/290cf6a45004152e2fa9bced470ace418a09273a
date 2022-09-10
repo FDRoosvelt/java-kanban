@@ -1,17 +1,12 @@
 
 a
-java:S2259D"FA "NullPointerException" could be thrown; "lastLine" is nullable here.(Ê±ú¾şÿÿÿÿ
-g
-java:S2095>"LUse try-with-resources or close this "BufferedReader" in a "finally" clause.(¹®Ùœÿÿÿÿÿ
-g
-java:S2095U"LUse try-with-resources or close this "BufferedReader" in a "finally" clause.(¹®Ùœÿÿÿÿÿ
-\
-java:S1161":Add the "@Override" annotation above this method signature(­ã‘ùúÿÿÿÿ8¸¬İ²0
-V
-java:S2864 "4Iterate over the "entrySet" instead of the "keySet".(ú ©ùÿÿÿÿ8Í¬İ²0
-V
-java:S2864#"4Iterate over the "entrySet" instead of the "keySet".(Ş¯úŸüÿÿÿÿ8Ï¬İ²0
-V
-java:S2864&"4Iterate over the "entrySet" instead of the "keySet".(€ıªıÿÿÿÿ8Ó¬İ²0
-S
-java:S2696]"6Make the enclosing method "static" or remove this set.(Æ©Ûû8³­İ²0
+java:S2259I"FA "NullPointerException" could be thrown; "lastLine" is nullable here.(Ê±ú¾şÿÿÿÿ
+S	java:S106"9Replace this use of System.out or System.err by a logger.(ÖŸò†ûÿÿÿÿ
+O
+java:S2864%"4Iterate over the "entrySet" instead of the "keySet".(ú ©ùÿÿÿÿ
+O
+java:S2864("4Iterate over the "entrySet" instead of the "keySet".(Ş¯úŸüÿÿÿÿ
+O
+java:S2864+"4Iterate over the "entrySet" instead of the "keySet".(€ıªıÿÿÿÿ
+S	java:S106V"9Replace this use of System.out or System.err by a logger.(ãâ÷÷øÿÿÿÿ
+N	java:S106v"9Replace this use of System.out or System.err by a logger.(ÎÕÜù
