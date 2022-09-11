@@ -1,6 +1,6 @@
 
-a
-java:S2259I"FA "NullPointerException" could be thrown; "lastLine" is nullable here.(Ê±ú¾þÿÿÿÿ
+c
+java:S2259H"FA "NullPointerException" could be thrown; "lastLine" is nullable here.(þŽ¶Â8Ëî¤â²0
 S	java:S106"9Replace this use of System.out or System.err by a logger.(ÖŸò†ûÿÿÿÿ
 O
 java:S2864%"4Iterate over the "entrySet" instead of the "keySet".(ú ©Žùÿÿÿÿ

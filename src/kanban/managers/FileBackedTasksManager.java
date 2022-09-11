@@ -69,7 +69,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                 lastLine = br.readLine();
                 length++;
             }
-            if (length > 3) {
+            if (!lastLine.isEmpty() && length > 3) {
                 String[] idList = lastLine.split(",");
                 for (String idStr : idList) {
                     int idInt = Integer.parseInt(idStr);
