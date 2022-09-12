@@ -19,5 +19,6 @@ public class Main {
         taskManager.newTask("task 10", "Описание task 10", 0, "");
 
         taskManager.getPrioritizedTasks().forEach(System.out::println);
+
     }
 }

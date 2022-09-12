@@ -53,7 +53,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     private String historyToString(HistoryManager manager) {
         List<String> historyLine = new LinkedList<>();
         for (Task task : manager.getHistory()) {
-            if (historyLine.size() > 9) {
+            if (historyLine.size() >= 10) {
                 historyLine.remove(0);
             }
             historyLine.add(Integer.toString(task.getId()));
@@ -155,20 +155,23 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
     @Override
     public Task getTask(int id) {
+        Task task = super.getTask(id);
         save();
-        return super.getTask(id);
+        return task;
     }
 
     @Override
     public Epic getEpic(int id) {
+        Epic epic = super.getEpic(id);
         save();
-        return super.getEpic(id);
+        return epic;
     }
 
     @Override
     public Subtask getSubtask(int id) {
+        Subtask subtask = super.getSubtask(id);
         save();
-        return super.getSubtask(id);
+        return subtask;
     }
 
     @Override
