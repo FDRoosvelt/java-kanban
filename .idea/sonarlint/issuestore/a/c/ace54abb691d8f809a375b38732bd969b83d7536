@@ -1,41 +1,37 @@
 
 ‡
-java:S1192€"pDefine a constant instead of duplicating this literal "Ğ’Ñ€ĞµĞ¼Ñ Ğ·Ğ°Ğ²ĞµÑ€ÑˆĞµĞ½Ğ¸Ñ Ğ·Ğ°Ğ´Ğ°Ñ‡Ğ¸ - " 3 times.(‰¢§
+java:S1192ş"pDefine a constant instead of duplicating this literal "Ğ’Ñ€ĞµĞ¼Ñ Ğ·Ğ°Ğ²ĞµÑ€ÑˆĞµĞ½Ğ¸Ñ Ğ·Ğ°Ğ´Ğ°Ñ‡Ğ¸ - " 3 times.(‰¢§
 {
-java:S1149¥"_Replace the synchronized class "StringBuffer" by an unsynchronized one such as "StringBuilder".(˜İâœÿÿÿÿÿ
+java:S1149£"_Replace the synchronized class "StringBuffer" by an unsynchronized one such as "StringBuilder".(˜İâœÿÿÿÿÿ
 Q
-java:S2696$"6Make the enclosing method "static" or remove this set.(¶Ò¦èüÿÿÿÿ
-S	java:S106&"9Replace this use of System.out or System.err by a logger.(ˆÄ»ùÿÿÿÿ
+java:S2696""6Make the enclosing method "static" or remove this set.(¶Ò¦èüÿÿÿÿ
+S	java:S106$"9Replace this use of System.out or System.err by a logger.(ˆÄ»ùÿÿÿÿ
 Q
-java:S2696."6Make the enclosing method "static" or remove this set.(¶Ò¦èüÿÿÿÿ
+java:S2696,"6Make the enclosing method "static" or remove this set.(¶Ò¦èüÿÿÿÿ
 Q
-java:S26968"6Make the enclosing method "static" or remove this set.(¶Ò¦èüÿÿÿÿ
-S	java:S106:"9Replace this use of System.out or System.err by a logger.(‘éµıÿÿÿÿ
-S	java:S106="9Replace this use of System.out or System.err by a logger.(ˆÄ»ùÿÿÿÿ
+java:S26966"6Make the enclosing method "static" or remove this set.(¶Ò¦èüÿÿÿÿ
+S	java:S1068"9Replace this use of System.out or System.err by a logger.(‘éµıÿÿÿÿ
+S	java:S106;"9Replace this use of System.out or System.err by a logger.(ˆÄ»ùÿÿÿÿ
 1
-java:S3626K"Remove this redundant jump.(ûÁİ…
+java:S3626I"Remove this redundant jump.(ûÁİ…
 P
-java:S2864"4Iterate over the "entrySet" instead of the "keySet".(ªŒçúÿÿÿÿ
-O	java:S106"9Replace this use of System.out or System.err by a logger.(À­ã…
-O	java:S106ª"9Replace this use of System.out or System.err by a logger.(ÂÂÓ«
-T	java:S106µ"9Replace this use of System.out or System.err by a logger.(úÅ‘ëşÿÿÿÿ
+java:S2864"4Iterate over the "entrySet" instead of the "keySet".(ªŒçúÿÿÿÿ
+O	java:S106œ"9Replace this use of System.out or System.err by a logger.(À­ã…
+O	java:S106¨"9Replace this use of System.out or System.err by a logger.(ÂÂÓ«
+T	java:S106³"9Replace this use of System.out or System.err by a logger.(úÅ‘ëşÿÿÿÿ
 M
-java:S1117½"6Rename "id" which hides the field declared at line 20.(Ç¹á§
-T	java:S106Ò"9Replace this use of System.out or System.err by a logger.(ó¸´Äıÿÿÿÿ
-T	java:S106Ô"9Replace this use of System.out or System.err by a logger.(ÌŠ´´ÿÿÿÿÿ
-T	java:S106à"9Replace this use of System.out or System.err by a logger.(™Œëûÿÿÿÿ
-O	java:S106â"9Replace this use of System.out or System.err by a logger.(°Ì‚Ä
-T	java:S106í"9Replace this use of System.out or System.err by a logger.(Õ»¯ùıÿÿÿÿ
-T	java:S106ï"9Replace this use of System.out or System.err by a logger.(È®‹½øÿÿÿÿ
-T	java:S106ö"9Replace this use of System.out or System.err by a logger.(ÂĞñİúÿÿÿÿ
-O	java:S106ø"9Replace this use of System.out or System.err by a logger.(»¼ãı
+java:S1117»"6Rename "id" which hides the field declared at line 18.(Ç¹á§
+T	java:S106Ğ"9Replace this use of System.out or System.err by a logger.(ó¸´Äıÿÿÿÿ
+T	java:S106Ò"9Replace this use of System.out or System.err by a logger.(ÌŠ´´ÿÿÿÿÿ
+T	java:S106Ş"9Replace this use of System.out or System.err by a logger.(™Œëûÿÿÿÿ
+O	java:S106à"9Replace this use of System.out or System.err by a logger.(°Ì‚Ä
+T	java:S106ë"9Replace this use of System.out or System.err by a logger.(Õ»¯ùıÿÿÿÿ
+T	java:S106í"9Replace this use of System.out or System.err by a logger.(È®‹½øÿÿÿÿ
+T	java:S106ô"9Replace this use of System.out or System.err by a logger.(ÂĞñİúÿÿÿÿ
+O	java:S106ö"9Replace this use of System.out or System.err by a logger.(»¼ãı
 P
-java:S2864¦"4Iterate over the "entrySet" instead of the "keySet".(ëĞÆßûÿÿÿÿ
+java:S2864¤"4Iterate over the "entrySet" instead of the "keySet".(ëĞÆßûÿÿÿÿ
 K
-java:S2864©"4Iterate over the "entrySet" instead of the "keySet".(®àÁ
+java:S2864§"4Iterate over the "entrySet" instead of the "keySet".(®àÁ
 K
-java:S2864«"4Iterate over the "entrySet" instead of the "keySet".(¶ù“ë
-F
-java:S1128")Remove this unused import 'java.io.File'.(†Ğ¥Å8©¼À¼²0
-R
-java:S1128"0Remove this unused import 'java.io.IOException'.(ªº»Úıÿÿÿÿ8šµ¼¼²0
+java:S2864©"4Iterate over the "entrySet" instead of the "keySet".(¶ù“ë

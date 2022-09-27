@@ -11,24 +11,18 @@ import java.io.*;
 import java.util.LinkedList;
 import java.util.List;
 
+import static kanban.Managers.file;
 import static kanban.tasks.Task.FORMATTER;
 
 public class FileBackedTasksManager extends InMemoryTaskManager {
 
-    private final File file;
-    public FileBackedTasksManager(File file) {
-        this.file = file;
-    }
-
-    public static FileBackedTasksManager loadFromFile(File file) {
-        FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager(file);
+    public FileBackedTasksManager() {
         try {
             tasksFromString(file);
             historyFromString(file);
         } catch (IOException e) {
             System.out.println("Ошибка при считывании из файла");
         }
-        return fileBackedTasksManager;
     }
 
     private void save() {
@@ -62,7 +56,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
     private static void historyFromString(File file) throws IOException {
-        String lastLine = null;
+        String lastLine = "";
         int length = 0;
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             while (br.ready()) {

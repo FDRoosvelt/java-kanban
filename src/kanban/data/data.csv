@@ -1,7 +1,0 @@
-start,duration,id,type,name,status,description,epic
-01.01.1010 02:01,10,100001,TASK,task 2,NEW,Описание task 2
-01.01.1010 01:01,10,100000,TASK,task 1,NEW,Описание task 1
-null,0,100003,TASK,task 5,NEW,Описание task 5
-01.01.1010 01:13,10,100002,TASK,task 3,NEW,Описание task 3
-null,0,100004,TASK,task 10,NEW,Описание task 10
-

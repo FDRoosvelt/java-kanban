@@ -246,7 +246,7 @@ class TaskManagerTest {
 
     @Test
     void loadFromFile() throws IOException {
-        TaskManager taskManager = new FileBackedTasksManager(file);
+        TaskManager taskManager = new FileBackedTasksManager();
         assertTrue(taskManager.getHistory().isEmpty());
         assertTrue(taskManager.getTasks().isEmpty());
         assertTrue(taskManager.getEpics().isEmpty());

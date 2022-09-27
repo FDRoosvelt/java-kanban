@@ -1,0 +1,49 @@
+
+{
+java:S1192."eDefine a constant instead of duplicating this literal "ĞĞ°Ñ‡Ğ°Ğ»Ğ°ÑÑŒ Ğ¾Ğ±Ñ€Ğ°Ğ±Ğ¾Ñ‚ĞºĞ° " 5 times.(“ÔØ³
+g
+java:S1192V"LDefine a constant instead of duplicating this literal "description" 6 times.(™ æåıÿÿÿÿ
+d
+java:S1192X"IDefine a constant instead of duplicating this literal "duration" 4 times.(Óªùÿÿÿÿ
+b
+java:S1192\"GDefine a constant instead of duplicating this literal "DELETE" 6 times.(ñ™µúÿÿÿÿ
+`
+java:S1192Y"JDefine a constant instead of duplicating this literal "startTime" 4 times.(ğ¸¼Å
+a
+java:S1301/"KReplace this "switch" statement by "if" statements to increase readability.(ãØ´ú
+b
+java:S1301"KReplace this "switch" statement by "if" statements to increase readability.(ãØ´ú
+K
+java:S1191"5Use classes from the Java API instead of Sun classes.(üÕÙä
+\
+java:S22596"FA "NullPointerException" could be thrown; "response" is nullable here.(²œ¯…
+]
+java:S2259„"FA "NullPointerException" could be thrown; "response" is nullable here.(²œ¯…
+]
+java:S2259—"FA "NullPointerException" could be thrown; "response" is nullable here.(²œ¯…
+\
+java:S2259}"FA "NullPointerException" could be thrown; "response" is nullable here.(²œ¯…
+]
+java:S2259½"FA "NullPointerException" could be thrown; "response" is nullable here.(²œ¯…
+N	java:S106#"9Replace this use of System.out or System.err by a logger.(Ë”¾
+N	java:S106."9Replace this use of System.out or System.err by a logger.(“ÔØ³
+7	java:S131/""Add a default case to this switch.(ãØ´ú
+h
+java:S3776="RRefactor this method to reduce its Cognitive Complexity from 22 to the 15 allowed.(›ûè´
+S	java:S106A"9Replace this use of System.out or System.err by a logger.(•ç‹øıÿÿÿÿ
+7	java:S131H""Add a default case to this switch.(ãØ´ú
+7	java:S131d""Add a default case to this switch.(ãØ´ú
+i
+java:S3776„"RRefactor this method to reduce its Cognitive Complexity from 22 to the 15 allowed.(›ûè´
+T	java:S106ˆ"9Replace this use of System.out or System.err by a logger.(ÖŸñšıÿÿÿÿ
+8	java:S131""Add a default case to this switch.(ãØ´ú
+8	java:S131§""Add a default case to this switch.(ãØ´ú
+i
+java:S3776Ä"RRefactor this method to reduce its Cognitive Complexity from 22 to the 15 allowed.(›ûè´
+T	java:S106È"9Replace this use of System.out or System.err by a logger.(ÖŸñšıÿÿÿÿ
+8	java:S131Ï""Add a default case to this switch.(ãØ´ú
+8	java:S131ë""Add a default case to this switch.(ãØ´ú
+O	java:S106"9Replace this use of System.out or System.err by a logger.(“ÔØ³
+@
+java:S1481")Remove this unused "path" local variable.(©÷ô
+8	java:S131""Add a default case to this switch.(ãØ´ú

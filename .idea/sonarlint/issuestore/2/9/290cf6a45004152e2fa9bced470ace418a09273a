@@ -1,12 +1,10 @@
 
-\
-java:S2259H"FA "NullPointerException" could be thrown; "lastLine" is nullable here.(ş¶Â
-S	java:S106"9Replace this use of System.out or System.err by a logger.(ÖŸò†ûÿÿÿÿ
+S	java:S106"9Replace this use of System.out or System.err by a logger.(ÖŸò†ûÿÿÿÿ
 O
-java:S2864%"4Iterate over the "entrySet" instead of the "keySet".(ú ©ùÿÿÿÿ
+java:S2864"4Iterate over the "entrySet" instead of the "keySet".(ú ©ùÿÿÿÿ
 O
-java:S2864("4Iterate over the "entrySet" instead of the "keySet".(Ş¯úŸüÿÿÿÿ
+java:S2864""4Iterate over the "entrySet" instead of the "keySet".(Ş¯úŸüÿÿÿÿ
 O
-java:S2864+"4Iterate over the "entrySet" instead of the "keySet".(€ıªıÿÿÿÿ
-S	java:S106V"9Replace this use of System.out or System.err by a logger.(ãâ÷÷øÿÿÿÿ
-N	java:S106v"9Replace this use of System.out or System.err by a logger.(ÎÕÜù
+java:S2864%"4Iterate over the "entrySet" instead of the "keySet".(€ıªıÿÿÿÿ
+S	java:S106P"9Replace this use of System.out or System.err by a logger.(ãâ÷÷øÿÿÿÿ
+U	java:S106p"9Replace this use of System.out or System.err by a logger.(ÎÕÜù8’Óï¦·0
