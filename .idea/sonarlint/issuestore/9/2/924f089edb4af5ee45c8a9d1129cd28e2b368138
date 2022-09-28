@@ -1,8 +1,0 @@
-
-0
-java:S1220""Move this file to a named package.
-\
-java:S1854"?Remove this useless assignment to local variable "taskManager".(ìöÇ8ëöíü·0
-M
-java:S1481"0Remove this unused "taskManager" local variable.(ìöÇ8ïöíü·0
-Q	java:S125"<This block of commented-out lines of code should be removed.(Ëà¡Ù
