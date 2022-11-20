@@ -1,2 +1,2 @@
 # java-kanban
-Repository for homework project.
+Моя первая серьезная работа по созданию Канбан-доски с синхронизацией на сервере
